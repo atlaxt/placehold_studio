@@ -113,21 +113,30 @@ async function copyUrl() {
       </template>
     </UDashboardSidebar>
 
-    <UDashboardPanel class="flex-1">
-      <div class="h-full flex flex-col">
-        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-800 flex items-center gap-2">
-          <code class="flex-1 text-xs text-gray-500 dark:text-gray-400 truncate select-all">{{ placeholdUrl }}</code>
-          <UButton
-            size="xs"
-            variant="ghost"
-            :icon="copied ? 'i-lucide-check' : 'i-lucide-copy'"
-            :color="copied ? 'success' : 'neutral'"
-            @click="copyUrl"
-          />
-        </div>
+    <UDashboardPanel>
+      <template #header>
+        <UDashboardNavbar>
+          <template #leading>
+            <UDashboardSidebarCollapse />
+          </template>
+          <template #default>
+            <code class="flex-1 text-xs text-gray-500 dark:text-gray-400 truncate select-all">{{ placeholdUrl }}</code>
+          </template>
+          <template #trailing>
+            <UButton
+              size="xs"
+              variant="ghost"
+              :icon="copied ? 'i-lucide-check' : 'i-lucide-copy'"
+              :color="copied ? 'success' : 'neutral'"
+              @click="copyUrl"
+            />
+          </template>
+        </UDashboardNavbar>
+      </template>
 
+      <template #body>
         <div
-          class="flex-1 flex items-center justify-center p-8"
+          class="h-full flex items-center justify-center p-8"
           style="background-image: repeating-conic-gradient(#80808015 0% 25%, transparent 0% 50%); background-size: 20px 20px;"
         >
           <img
@@ -136,7 +145,7 @@ async function copyUrl() {
             class="max-w-full max-h-full shadow-xl rounded"
           >
         </div>
-      </div>
+      </template>
     </UDashboardPanel>
   </UDashboardGroup>
 </template>
