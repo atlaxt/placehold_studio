@@ -25,7 +25,7 @@ const placeholdUrl = computed(() => {
 
   const params = new URLSearchParams()
   if (customText.value)
-    params.set('text', customText.value)
+    params.set('text', customText.value.replace(/\n/g, '\\n'))
   if (font.value !== 'Lato')
     params.set('font', font.value)
   const qs = params.toString()
@@ -44,13 +44,16 @@ async function copyUrl() {
 
 <template>
   <UDashboardGroup>
-    <UDashboardSidebar class="w-72">
+    <UDashboardSidebar collapsible resizable :default-size="22" :min-size="18" :max-size="35">
       <div class="p-4 space-y-5 overflow-y-auto">
-        <UFormField label="Boyut">
+        <UFormField
+          label="Size"
+          help="Enter a value between 10 and 4000"
+        >
           <UFieldGroup class="w-full">
-            <UInput v-model="width" type="number" min="10" max="4000" placeholder="Genişlik" class="w-full" />
+            <UInput v-model="width" type="number" min="10" max="4000" placeholder="Width" class="w-full" />
             <UBadge label="x" color="neutral" variant="subtle" />
-            <UInput v-model="height" type="number" min="10" max="4000" placeholder="Yükseklik" class="w-full" />
+            <UInput v-model="height" type="number" min="10" max="4000" placeholder="Height" class="w-full" />
           </UFieldGroup>
         </UFormField>
 
@@ -58,7 +61,7 @@ async function copyUrl() {
           <USelect v-model="format" :items="formats" class="w-full" />
         </UFormField>
 
-        <UFormField label="Arka Plan">
+        <UFormField label="Background Color">
           <div class="flex items-center gap-2">
             <UPopover>
               <UButton
@@ -75,7 +78,7 @@ async function copyUrl() {
           </div>
         </UFormField>
 
-        <UFormField label="Metin Rengi">
+        <UFormField label="Text Color">
           <div class="flex items-center gap-2">
             <UPopover>
               <UButton
@@ -92,8 +95,8 @@ async function copyUrl() {
           </div>
         </UFormField>
 
-        <UFormField label="Özel Metin" hint="\\n ile yeni satır">
-          <UInput v-model="customText" placeholder="Metin girin..." class="w-full" />
+        <UFormField label="Custom Text">
+          <UTextarea v-model="customText" placeholder="Enter text..." class="w-full" :rows="3" />
         </UFormField>
 
         <UFormField label="Font">
